@@ -5,7 +5,7 @@
   let currentState: string = "mainMenu";
 </script>
 
-<main class="w-full h-[90vh] flex items-center justify-center animate-fade">
+<main class="w-full h-[91vh] flex items-center justify-center animate-fade">
   {#if currentState === "mainMenu"}
     <div class="flex space-x-5 animate-fade">
       <button

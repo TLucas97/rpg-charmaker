@@ -4,7 +4,7 @@
   import Footer from "./lib/Footer.svelte";
 </script>
 
-<main class="bg-[#E8F9FD] w-full h-[100vh]">
+<main class="bg-[#E8F9FD] w-full">
   <Header />
   <CharMaker />
   <Footer />
