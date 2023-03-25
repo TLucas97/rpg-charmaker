@@ -87,7 +87,7 @@
 
 <main class="animate-fade w-[95%] smaller:w-[900px] h-[600px] bg-white px-2 pb-5 rounded-lg shadow-xl">
   <div class="flex justify-between items-end my-1">
-    <span class="font-bold text-3xl">Meus personagens</span>
+    <span class="font-bold text-xl tiny:text-3xl">Meus personagens</span>
     <button class="w-[30px] h-[30px]" on:click={returnToMainMenu}>
       <FaWindowClose />
     </button>
@@ -137,10 +137,10 @@
   {/if}
 </main>
 
-<Modal isOpen={selectedCharacterModalView} width="900px">
-  <div>
+<Modal isOpen={selectedCharacterModalView} width="950px">
+  <div class="smaller:w-[100%] w-[95%]">
     <div class="flex justify-between items-center m-3">
-      <span class="font-bold text-3xl underline">{selectedCharacter.name}</span>
+      <span class="font-bold text-xl tiny:text-3xl underline">{selectedCharacter.name}</span>
       <div class="flex space-x-3 items-center">
         <button
           class="w-[26px] h-[26px] text-red-500"
@@ -165,21 +165,21 @@
       />
     </div>
     <div class="p-4 w-full">
-      <div class="flex space-x-4">
-        <div class="border-2 border-gray-600 p-3 text-gray-600">
+      <div class="flex space-x-4 flex-wrap justify-center items-center text-xs tiny:text-base">
+        <div class="border-2 border-gray-600 p-3 my-4 text-gray-600">
           <span class="font-bold">NOME: </span>
           <span>{selectedCharacter.name}</span>
         </div>
-        <div class="border-2 border-gray-600 p-3 text-gray-600">
+        <div class="border-2 border-gray-600 p-3 my-4 text-gray-600">
           <span class="font-bold">IDADE: </span>
           <span>{selectedCharacter.age}</span>
         </div>
-        <div class="border-2 border-gray-600 p-3 text-gray-600">
+        <div class="border-2 border-gray-600 p-3 my-4 text-gray-600">
           <span class="font-bold">CLASSE: </span>
           <span>{selectedCharacter.class}</span>
         </div>
       </div>
-      <div class="flex space-x-4 mt-4">
+      <div class="flex space-x-4 mt-4 text-xs tiny:text-base">
         <div class="border-2 border-gray-600 p-3 text-gray-600">
           <span class="font-bold">HISTORIA: </span>
           <span>{selectedCharacter.story}</span>

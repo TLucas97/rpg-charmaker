@@ -105,7 +105,7 @@
   };
 </script>
 
-<main class="animate-fade bg-white w-[600px] h-[580px] rounded-lg shadow-xl">
+<main class="animate-fade bg-white w-[95%] evenSmaller:w-[600px] h-[580px] rounded-lg shadow-xl">
   <div class="flex justify-end items-end m-2">
     <button class="w-[30px] h-[30px]" on:click={returnToMainMenu}
       ><FaWindowClose /></button

@@ -4,6 +4,8 @@ const config = {
   theme: {
     screens: {
       smaller: "850px",
+      evenSmaller: "600px",
+      tiny: "400px",
     },
     extend: {
       keyframes: {
