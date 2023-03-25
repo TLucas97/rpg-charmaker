@@ -33,10 +33,11 @@
   let newAvatarPicture: string = "";
   let validationCounter: number = 0;
 
-  const validateImageLink = () => {
-    const image = new Image();
+  const validateImageLink = (): void => {
+    const image: HTMLImageElement = new Image();
     image.src = newAvatarPicture;
-    image.onload = () => {
+
+    image.onload = (): void => {
       characterBody.avatarLink = newAvatarPicture;
       avatarPictureModalView = false;
       newAvatarPicture = "";
@@ -44,7 +45,7 @@
       return;
     };
 
-    image.onerror = () => {
+    image.onerror = (): void => {
       alert("Link inválido");
       return;
     };
@@ -83,7 +84,10 @@
   };
 
   const createCharacter = () => {
-    if (!validateIfObjectKeysAreEmpty(characterBody)) {
+    const characterBodyForValidation = { ...characterBody };
+    delete characterBodyForValidation.avatarLink;
+
+    if (!validateIfObjectKeysAreEmpty(characterBodyForValidation)) {
       alert("Preencha todos os campos");
       return;
     }
@@ -111,7 +115,7 @@
     <button on:click={() => (avatarPictureModalView = true)}>
       <img
         src={characterBody.avatarLink ||
-          "https://media.istockphoto.com/id/1327592449/vector/default-avatar-photo-placeholder-icon-grey-profile-picture-business-man.jpg?s=170667a&w=0&k=20&c=qDvsvfQdmm_cvI_BQH4PdIt8-P-VDAq7ufOobicPBu0="}
+          "https://st2.depositphotos.com/4549583/8110/i/600/depositphotos_81106984-stock-photo-male-avatar-profile-picture.jpg"}
         alt="default-avatar"
         class="w-[100px] h-[100px] rounded-full hover:border-black hover:border-2 border-2 border-transparent transition ease-in-out"
       />

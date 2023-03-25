@@ -2,6 +2,9 @@ const config = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
 
   theme: {
+    screens: {
+      smaller: "850px",
+    },
     extend: {
       keyframes: {
         fade: {
@@ -12,6 +15,9 @@ const config = {
       animation: {
         fade: "fade 0.5s ease-in-out",
       },
+    },
+    fontFamily: {
+      "source-code-pro": ["Source Code Pro", "monospace"],
     },
   },
 
