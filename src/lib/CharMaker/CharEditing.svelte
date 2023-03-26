@@ -34,6 +34,15 @@
     returnToCharacterCard();
   };
 
+  const validateIfObjectKeysAreEmpty = (obj: any) => {
+    for (const key in obj) {
+      if (obj[key] === "") {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const importInventoryItems = (e: any) => {
     editableCharacterBody.inventory = e.detail;
   };
@@ -65,6 +74,15 @@
   };
 
   const updateLocalStorageCharacterBasedOnUUID = () => {
+    const characterBodyForValidation = { ...editableCharacterBody };
+    delete characterBodyForValidation.avatarLink;
+    delete characterBodyForValidation.inventory;
+
+    if (!validateIfObjectKeysAreEmpty(characterBodyForValidation)) {
+      alert("Preencha todos os campos");
+      return;
+    }
+
     const charactersList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
     const filteredCharacter = charactersList.filter((character: any) => {
       return character.uuid !== uuid;
@@ -74,10 +92,6 @@
     alert("Personagem atualizado com sucesso!");
     updatedCharacterList();
   };
-
-  $: {
-    console.log(editableCharacterBody);
-  }
 
   onMount(() => {
     findCharacterByUUID();

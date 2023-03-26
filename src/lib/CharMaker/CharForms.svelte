@@ -86,6 +86,7 @@
   const createCharacter = () => {
     const characterBodyForValidation = { ...characterBody };
     delete characterBodyForValidation.avatarLink;
+    delete characterBodyForValidation.inventory;
 
     if (!validateIfObjectKeysAreEmpty(characterBodyForValidation)) {
       alert("Preencha todos os campos");
