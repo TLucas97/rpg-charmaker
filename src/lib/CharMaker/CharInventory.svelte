@@ -4,7 +4,7 @@
 
   const dispatch = createEventDispatcher();
   let newItem: string = "";
-  let inventoryItems: string[] = [];
+  export let inventoryItems: string[] = [];
 
   const addNewItem = () => {
     inventoryItems = [...inventoryItems, newItem];
@@ -14,6 +14,7 @@
 
   const removeItem = (item: number) => {
     inventoryItems = inventoryItems.filter((i, index) => index !== item);
+    dispatch("exportItems", inventoryItems);
   };
 </script>
 

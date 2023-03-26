@@ -4,26 +4,19 @@
   import FaWindowClose from "svelte-icons/fa/FaWindowClose.svelte";
   import FaPlay from "svelte-icons/fa/FaPlay.svelte";
   import FaTrashAlt from "svelte-icons/fa/FaTrashAlt.svelte";
+  import FaPen from "svelte-icons/fa/FaPen.svelte";
   import Modal from "../Modal.svelte";
   import DiceLoader from "../DiceLoader.svelte";
+  import CharEditing from "./CharEditing.svelte";
+  import type { CharacterBody } from "../../interfaces";
 
   const dispatch = createEventDispatcher();
-
-  interface CharacterBody {
-    uuid: string;
-    name: string;
-    age: string;
-    class: string;
-    inventory: [];
-    story: string;
-    avatarLink?: string;
-  }
-
   let audio = new Audio("./sounds/dice-sound-effect.mp3");
   let charactersList: any = [];
   let selectedCharacter: CharacterBody;
   let selectedCharacterModalView: boolean = false;
   let characterRemovalConfirmationModalView: boolean = false;
+  let characterEditingModalView: boolean = false;
   let diceLoading: boolean = false;
   let randomNumber: number = 0;
   let diceRolled: boolean = false;
@@ -65,11 +58,25 @@
     charactersList = filteredCharacter;
     characterRemovalConfirmationModalView = false;
     selectedCharacterModalView = false;
-    alert("Personagem removido com sucesso!")
+    alert("Personagem removido com sucesso!");
     loadCharactersFromLocalStorage();
   };
 
-  const getRandomNumberBetweenOneAndTwenty = () => {
+  const clearSelectedCharacter = () => {
+    selectedCharacter = {
+      uuid: "",
+      name: "",
+      age: "",
+      class: "",
+      inventory: [],
+      story: "",
+      avatarLink: "",
+    };
+
+    selectedCharacterModalView = false;
+  };
+
+  const revealRandomNumber = () => {
     diceLoading = true;
     playSound();
     setTimeout(() => {
@@ -85,7 +92,9 @@
   });
 </script>
 
-<main class="animate-fade w-[95%] smaller:w-[900px] h-[600px] bg-white px-2 pb-5 rounded-lg shadow-xl">
+<main
+  class="w-[95%] smaller:w-[900px] h-[600px] bg-white px-2 pb-5 rounded-lg shadow-xl"
+>
   <div class="flex justify-between items-end my-1">
     <span class="font-bold text-xl tiny:text-3xl">Meus personagens</span>
     <button class="w-[30px] h-[30px]" on:click={returnToMainMenu}>
@@ -137,21 +146,26 @@
   {/if}
 </main>
 
-<Modal isOpen={selectedCharacterModalView} width="950px">
+<Modal isOpen={selectedCharacterModalView} width="800px">
   <div class="smaller:w-[100%] w-[95%]">
     <div class="flex justify-between items-center m-3">
-      <span class="font-bold text-xl tiny:text-3xl underline">{selectedCharacter.name}</span>
+      <span class="font-bold text-xl tiny:text-3xl underline"
+        >{selectedCharacter.name}</span
+      >
       <div class="flex space-x-3 items-center">
+        <button
+          class="w-[26px] h-[26px] text-blue-500"
+          on:click={() => (characterEditingModalView = true)}
+        >
+          <FaPen />
+        </button>
         <button
           class="w-[26px] h-[26px] text-red-500"
           on:click={() => (characterRemovalConfirmationModalView = true)}
         >
           <FaTrashAlt />
         </button>
-        <button
-          class="w-[30px] h-[30px]"
-          on:click={() => (selectedCharacterModalView = false)}
-        >
+        <button class="w-[30px] h-[30px]" on:click={clearSelectedCharacter}>
           <FaWindowClose />
         </button>
       </div>
@@ -165,7 +179,9 @@
       />
     </div>
     <div class="p-4 w-full">
-      <div class="flex space-x-4 flex-wrap justify-center items-center text-xs tiny:text-base">
+      <div
+        class="flex space-x-4 flex-wrap justify-center items-center text-xs tiny:text-base"
+      >
         <div class="border-2 border-gray-600 p-3 my-4 text-gray-600">
           <span class="font-bold">NOME: </span>
           <span>{selectedCharacter.name}</span>
@@ -180,11 +196,15 @@
         </div>
       </div>
       <div class="flex space-x-4 mt-4 text-xs tiny:text-base">
-        <div class="border-2 border-gray-600 p-3 text-gray-600">
+        <div
+          class="w-[350px] h-[150px] overflow-scroll overflow-x-hidden border-2 border-gray-600 p-3 text-gray-600"
+        >
           <span class="font-bold">HISTORIA: </span>
           <span>{selectedCharacter.story}</span>
         </div>
-        <div class="border-2 border-gray-600 p-3 text-gray-600">
+        <div
+          class="w-[350px] h-[150px] overflow-scroll overflow-x-hidden border-2 border-gray-600 p-3 text-gray-600"
+        >
           <span class="font-bold">INVENTÁRIO: </span>
           <span>{selectedCharacter.inventory}</span>
         </div>
@@ -195,7 +215,7 @@
         {#if !diceLoading}
           <button
             class="text-xl p-3 bg-blue-400 rounded text-white font-bold animate-fade"
-            on:click={getRandomNumberBetweenOneAndTwenty}
+            on:click={revealRandomNumber}
             >{diceRolled ? "Jogar dado novamente" : "Jogar dado"}</button
           >
         {/if}
@@ -230,6 +250,19 @@
         Sim
       </button>
     </div>
+  </div>
+</Modal>
+
+<Modal isOpen={characterEditingModalView} width="500px">
+  <div class="p-5">
+    <CharEditing
+      uuid={selectedCharacter.uuid}
+      on:returnToCharacterCard={() => (characterEditingModalView = false)}
+      on:updatedCharacterList={() => {
+        loadCharactersFromLocalStorage();
+        filterSelectedCharacter(selectedCharacter.uuid);
+      }}
+    />
   </div>
 </Modal>
 
